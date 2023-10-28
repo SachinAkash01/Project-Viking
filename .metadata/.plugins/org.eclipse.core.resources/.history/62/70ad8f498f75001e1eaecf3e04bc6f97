@@ -1,0 +1,13 @@
+package levels;
+
+import main.Game;
+
+public class LevelManager {
+	
+	private Game game;
+	private BufferedImage levelSprite;
+
+	public LevelManager(Game game) {
+		this.game = game;
+	}
+}

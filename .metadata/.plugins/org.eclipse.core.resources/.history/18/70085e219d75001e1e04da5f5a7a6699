@@ -1,0 +1,22 @@
+package entities;
+
+import java.awt.Rectangle;
+
+public abstract class Entity {
+	
+	protected float x, y;
+	protected int height, width;
+	protected Rectangle hitBox;
+	
+	public Entity(float x, float y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		initHitBox();
+	}
+
+	private void initHitBox() {
+		hitBox = new Recatnagle((int)x, (int)y, width, height);
+	}
+}

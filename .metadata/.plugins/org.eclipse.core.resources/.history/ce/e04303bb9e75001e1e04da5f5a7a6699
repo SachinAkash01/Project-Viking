@@ -1,0 +1,8 @@
+package utilz;
+
+public class HelpMethods {
+	
+	public static boolean CanMoveHere() {
+		
+	}
+}
