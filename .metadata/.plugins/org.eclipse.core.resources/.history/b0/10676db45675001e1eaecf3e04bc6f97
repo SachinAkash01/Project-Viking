@@ -1,0 +1,8 @@
+package main;
+
+public class GameWindow extends JFrame {
+	
+	public GameWindow() {
+		
+	}
+}
