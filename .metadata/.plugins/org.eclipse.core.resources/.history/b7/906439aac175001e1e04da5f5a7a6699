@@ -1,0 +1,30 @@
+package gamestates;
+
+import entities.Player;
+import levels.LevelManager;
+import main.Game;
+
+public class Playing extends State implements StateMethods {
+	
+	private Player player;
+	private LevelManager levelManager;
+	
+	public Playing(Game game) {
+		super(game);
+		initClasses();
+	}
+	
+	private void initClasses() {
+		levelManager = new LevelManager(game);
+		player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
+		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+	}
+	
+	public void windowFocusLost() {
+		player.resetDirBooleans();
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+}

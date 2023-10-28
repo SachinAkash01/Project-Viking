@@ -1,0 +1,23 @@
+package gamestates;
+
+import entities.Player;
+import levels.LevelManager;
+
+public class Playing {
+	private Player player;
+	private LevelManager levelManager;
+	
+	private void initClasses() {
+		levelManager = new LevelManager(this);
+		player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
+		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+	}
+	
+	public void windowFocusLost() {
+		player.resetDirBooleans();
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+}

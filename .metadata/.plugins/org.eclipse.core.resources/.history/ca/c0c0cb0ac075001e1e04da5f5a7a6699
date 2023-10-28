@@ -1,0 +1,6 @@
+package gamestates;
+
+public interface StateMethods {
+	public void update();
+	public void draw(Graphics g);
+}

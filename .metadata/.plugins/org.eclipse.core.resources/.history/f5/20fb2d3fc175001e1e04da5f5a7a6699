@@ -1,0 +1,9 @@
+package gamestates;
+
+public class State {
+	
+	priavte Game game;
+	public State(Game game) {
+		this.game = game;
+	}
+}

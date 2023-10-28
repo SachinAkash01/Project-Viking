@@ -1,0 +1,9 @@
+package gamestates;
+
+import entities.Player;
+import levels.LevelManager;
+
+public class Playing {
+	private Player player;
+	private LevelManager levelManager;
+}

@@ -1,0 +1,8 @@
+package gamestates;
+
+public class State {
+	
+	public State() {
+		
+	}
+}
