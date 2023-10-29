@@ -1,0 +1,21 @@
+package ui;
+
+import java.awt.Graphics;
+
+public class UrmButton extends PauseButton {
+	
+	private BufferedImage[] images;
+
+	public UrmButton(int x, int y, int width, int height) {
+		super(x, y, width, height);
+	}
+	
+	public void update() {
+		
+	}
+	
+	public void draw(Graphics g) {
+		
+	}
+
+}
