@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Graphics;
 
+import javax.imageio.plugins.tiff.ExifGPSTagSet;
+
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
@@ -51,7 +53,10 @@ public class Game implements Runnable {
 		case PLAYING:
 			playing.update();
 			break;
+		case OPTIONS:
+		case QUIT:
 		default:
+			System.exit(0);
 			break;
 		}
 	}
