@@ -1,0 +1,30 @@
+package ui;
+
+import java.awt.image.BufferedImage;
+
+import gamestates.GameState;
+import utilz.LoadSave;
+import utilz.Constants.UI.Buttons.*;
+
+public class MenuButton {
+	
+	private int xPos, yPos, rowIndex;
+	private GameState state;
+	private BufferedImage[] images;
+	
+	public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.rowIndex = rowIndex;
+		this.state = state;
+		loadImages();
+	}
+
+	private void loadImages() {
+		images = new BufferedImage[3];
+		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS);
+		for (int i = 0; i < images.length; i++) {
+			images[i] = temp.getSubimage(i * B_WIDTH_DEFAULT, i, i, i)
+		}
+	}
+}

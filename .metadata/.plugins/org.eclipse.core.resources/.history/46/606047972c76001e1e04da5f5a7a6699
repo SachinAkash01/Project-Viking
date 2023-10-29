@@ -1,0 +1,11 @@
+package ui;
+
+public class PauseButton {
+	
+	private int x, y, width, height;
+	private Rectangle bounds;
+	
+	public PauseButton() {
+		
+	}
+}

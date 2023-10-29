@@ -1,0 +1,17 @@
+package ui;
+
+import gamestates.GameState;
+
+public class MenuButton {
+	
+	private int xPos, yPos, rowIndex;
+	private GameState state;
+	private BufferedImage[] images;
+	
+	public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.rowIndex = rowIndex;
+		this.state = state;
+	}
+}

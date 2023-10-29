@@ -1,0 +1,58 @@
+package ui;
+
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import main.Game;
+import utilz.LoadSave;
+
+public class PauseOverlay {
+	
+	private BufferedImage backgroundImage;
+	private int bgX, bgY, bgW, bgH;
+	private SoundButton musicButton, sfxButton;
+	
+	public PauseOverlay() {
+		loadBackground();
+		createSoundButtons();
+	}
+	
+	private void createSoundButtons() {
+		int soundX = (int)(450 * Game.SCALE);
+		
+		musicButton = new SoundButton(bgX, bgY, bgW, bgH);
+	}
+
+	private void loadBackground() {
+		backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
+		bgW = (int)(backgroundImage.getWidth() * Game.SCALE);
+		bgH = (int)(backgroundImage.getHeight() * Game.SCALE);
+		bgX = Game.GAME_WIDTH / 2 - bgW / 2;
+		bgY = (int)(25 * Game.SCALE);
+	}
+
+	public void update() {
+		
+	}
+	
+	public void draw(Graphics g) {
+		g.drawImage(backgroundImage, bgX, bgY, bgW, bgH, null);
+	}
+	
+	public void mouseMoved(MouseEvent e) {
+		
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+	
+	public void mousePressed(MouseEvent e) {
+		
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		
+	}
+}

@@ -1,0 +1,43 @@
+package ui;
+
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+public class PauseOverlay {
+	
+	private BufferedImage backgroundImage;
+	private int bgX, bgY, bgW, bgH;
+	
+	public PauseOverlay() {
+		loadBackground();
+	}
+	
+	private void loadBackground() {
+		
+	}
+
+	public void update() {
+		
+	}
+	
+	public void draw(Graphics g) {
+		
+	}
+	
+	public void mouseMoved(MouseEvent e) {
+		
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+	
+	public void mousePressed(MouseEvent e) {
+		
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		
+	}
+}

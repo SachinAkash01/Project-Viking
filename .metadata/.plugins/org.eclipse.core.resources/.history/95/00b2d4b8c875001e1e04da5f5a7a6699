@@ -1,0 +1,11 @@
+package ui;
+
+public class MenuButton {
+	
+	private int xPos, yPos, rowIndex;
+	private GameState state;
+	
+	public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
+		
+	}
+}

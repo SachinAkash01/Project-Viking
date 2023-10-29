@@ -1,0 +1,25 @@
+package ui;
+
+import java.awt.image.BufferedImage;
+
+import gamestates.GameState;
+
+public class MenuButton {
+	
+	private int xPos, yPos, rowIndex;
+	private GameState state;
+	private BufferedImage[] images;
+	
+	public MenuButton(int xPos, int yPos, int rowIndex, GameState state) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.rowIndex = rowIndex;
+		this.state = state;
+		loadImages();
+	}
+
+	private void loadImages() {
+		images = new BufferedImage[3];
+		BufferedImage temp = 
+	}
+}
