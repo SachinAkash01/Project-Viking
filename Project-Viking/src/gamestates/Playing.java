@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
 import utilz.LoadSave;
+import static utilz.Constants.Environment.*;
 
 public class Playing extends State implements StateMethods {
 	
@@ -25,9 +28,19 @@ public class Playing extends State implements StateMethods {
 	private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH;
 	private int maxLvlOffsetX = maxTilesOffset * Game.TILES_SIZE;
 	
+	private BufferedImage backgroundImg, bigCloud, smallCloud;
+	private int[] smallCloudPos;
+	private Random random = new Random();
+	
 	public Playing(Game game) {
 		super(game);
 		initClasses();
+		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BACKGROUND_IMAGE);
+		bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
+		smallCloud = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
+		smallCloudPos = new int[8];
+		for (int i = 0; i < smallCloudPos.length; i++)
+			smallCloudPos[i] = (int)(90 * Game.SCALE) + random.nextInt((int)(100 * Game.SCALE));
 	}
 	
 	private void initClasses() {
@@ -65,6 +78,10 @@ public class Playing extends State implements StateMethods {
 
 	@Override
 	public void draw(Graphics g) {
+		g.drawImage(backgroundImg, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+		
+		drawClouds(g);
+		
 		levelManager.draw(g, xLvlOffset);
 		player.render(g, xLvlOffset);
 		
@@ -73,6 +90,14 @@ public class Playing extends State implements StateMethods {
 			g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 			pauseOverlay.draw(g);
 		}
+	}
+
+	private void drawClouds(Graphics g) {
+		for (int i = 0; i < 3; i++)
+			g.drawImage(bigCloud, i * BIG_CLOUD_WIDTH - (int)(xLvlOffset * 0.3), (int)(204 * Game.SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT, null);
+		
+		for (int i = 0; i < smallCloudPos.length; i++)
+			g.drawImage(smallCloud, SMALL_CLOUD_WIDTH * 4 * i - (int)(xLvlOffset * 0.7), smallCloudPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
 	}
 
 	@Override
