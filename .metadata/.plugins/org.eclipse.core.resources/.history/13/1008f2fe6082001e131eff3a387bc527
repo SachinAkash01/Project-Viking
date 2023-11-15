@@ -1,0 +1,12 @@
+package entities;
+
+import gamestates.Playing;
+
+public class EnemyManager {
+	
+	private Playing playing;
+
+	public EnemyManager(Playing playing) {
+		this.playing = playing;
+	}
+}

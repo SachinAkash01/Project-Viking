@@ -1,0 +1,8 @@
+package entities;
+
+public class Crabby extends Enemy {
+
+	public Crabby(float x, float y, int width, int height, int enemyType) {
+		super(x, y, width, height, enemyType);
+	}
+}

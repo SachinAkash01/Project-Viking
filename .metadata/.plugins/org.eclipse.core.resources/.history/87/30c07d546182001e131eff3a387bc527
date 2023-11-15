@@ -1,0 +1,22 @@
+package entities;
+
+import java.awt.image.BufferedImage;
+
+import gamestates.Playing;
+import utilz.LoadSave;
+
+public class EnemyManager {
+	
+	private Playing playing;
+	private BufferedImage[][] crabbyArr;
+
+	public EnemyManager(Playing playing) {
+		this.playing = playing;
+		loadEnemyImgs();
+	}
+
+	private void loadEnemyImgs() {
+		crabbyArr = new BufferedImage[5][9];
+		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.CRABBY_SPRITE);
+	}
+}

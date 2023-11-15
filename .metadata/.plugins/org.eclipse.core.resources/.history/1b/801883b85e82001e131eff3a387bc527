@@ -1,0 +1,8 @@
+package entities;
+
+public class Enemy extend Entity {
+
+	public Entity(float x, float y, int width, int height) {
+		
+	}
+}
