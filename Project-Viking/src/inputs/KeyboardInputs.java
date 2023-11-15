@@ -3,9 +3,8 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import gamestates.GameState;
+import gamestates.Gamestate;
 import main.GamePanel;
-import static utilz.Constants.Directions.*;
 
 public class KeyboardInputs implements KeyListener {
 
@@ -15,36 +14,27 @@ public class KeyboardInputs implements KeyListener {
 		this.gamePanel = gamePanel;
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
-
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void keyReleased(KeyEvent e) {
-		switch(GameState.state) {
-		case MENU:
-			gamePanel.getGame().getMenu().keyReleased(e);
-			break;
-		case PLAYING:
-			gamePanel.getGame().getPlaying().keyReleased(e);
-			break;
-		default:
-			break;
+		switch (Gamestate.state) {
+		case MENU -> gamePanel.getGame().getMenu().keyReleased(e);
+		case PLAYING -> gamePanel.getGame().getPlaying().keyReleased(e);
+		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	@Override
+	public void keyPressed(KeyEvent e) {
+		switch (Gamestate.state) {
+		case MENU -> gamePanel.getGame().getMenu().keyPressed(e);
+		case PLAYING -> gamePanel.getGame().getPlaying().keyPressed(e);
+		case OPTIONS -> gamePanel.getGame().getGameOptions().keyPressed(e);
 		}
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		switch(GameState.state) {
-		case MENU:
-			gamePanel.getGame().getMenu().keyPressed(e);
-			break;
-		case PLAYING:
-			gamePanel.getGame().getPlaying().keyPressed(e);
-			break;
-		default:
-			break;
-		}
+	public void keyTyped(KeyEvent e) {
+		// Not In Use
 	}
 }
