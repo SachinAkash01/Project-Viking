@@ -1,9 +1,7 @@
 package main;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-
-import javax.swing.JFrame;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class GameWindow {
 	private JFrame jframe;
@@ -28,11 +26,8 @@ public class GameWindow {
 
 			@Override
 			public void windowGainedFocus(WindowEvent e) {
-				// TODO Auto-generated method stub
-
+				
 			}
 		});
-
 	}
-
 }

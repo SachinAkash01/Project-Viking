@@ -13,7 +13,7 @@ public class LevelManager {
 	private BufferedImage[] levelSprite;
 	private BufferedImage[] waterSprite;
 	private ArrayList<Level> levels;
-	private int lvlIndex = 0, aniTick, aniIndex;
+	private int lvlIndex = 0, aniTick, aniIndex, index;
 
 	public LevelManager(Game game) {
 		this.game = game;
@@ -58,7 +58,7 @@ public class LevelManager {
 	public void draw(Graphics g, int lvlOffset) {
 		for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
 			for (int i = 0; i < levels.get(lvlIndex).getLevelData()[0].length; i++) {
-				int index = levels.get(lvlIndex).getSpriteIndex(i, j);
+				index = levels.get(lvlIndex).getSpriteIndex(i, j);
 				int x = Game.TILES_SIZE * i - lvlOffset;
 				int y = Game.TILES_SIZE * j;
 				if (index == 48)
@@ -99,5 +99,17 @@ public class LevelManager {
 
 	public void setLevelIndex(int lvlIndex) {
 		this.lvlIndex = lvlIndex;
+	}
+	
+	public void setAniIndex(int aniIndex) {
+		this.aniIndex = aniIndex;
+	}
+	
+	public void setAniTick(int aniTick) {
+		this.aniTick = aniTick;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

@@ -114,6 +114,14 @@ public class Playing extends State implements Statemethods {
 		resetAll();
 		drawShip = false;
 	}
+	
+	public void loadFirstLevel() {
+		levelManager.setLevelIndex(0);
+		levelManager.loadNextLevel();
+		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+		resetAll();
+		drawShip = true;
+	}
 
 	private void loadStartLevel() {
 		enemyManager.loadEnemies(levelManager.getCurrentLevel());

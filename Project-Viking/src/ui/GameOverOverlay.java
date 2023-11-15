@@ -2,14 +2,29 @@ package ui;
 
 import static utilz.Constants.UI.URMButtons.URM_SIZE;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import main.Game;
+import main.TomatoGame;
+import main.TomatoGameServer;
 import utilz.LoadSave;
 
 public class GameOverOverlay {
@@ -17,7 +32,7 @@ public class GameOverOverlay {
 	private Playing playing;
 	private BufferedImage img;
 	private int imgX, imgY, imgW, imgH;
-	private UrmButton menu, play;
+	private UrmButton menu, play, getLife;
 
 	public GameOverOverlay(Playing playing) {
 		this.playing = playing;
@@ -26,12 +41,13 @@ public class GameOverOverlay {
 	}
 
 	private void createButtons() {
-		int menuX = (int) (335 * Game.SCALE);
-		int playX = (int) (440 * Game.SCALE);
+		int menuX = (int) (325 * Game.SCALE);
+		int getLifeX = (int) (388 * Game.SCALE);
+		int playX = (int) (453 * Game.SCALE);
 		int y = (int) (195 * Game.SCALE);
 		play = new UrmButton(playX, y, URM_SIZE, URM_SIZE, 0);
+		getLife = new UrmButton(getLifeX, y, URM_SIZE, URM_SIZE,1);
 		menu = new UrmButton(menuX, y, URM_SIZE, URM_SIZE, 2);
-
 	}
 
 	private void createImg() {
@@ -40,7 +56,6 @@ public class GameOverOverlay {
 		imgH = (int) (img.getHeight() * Game.SCALE);
 		imgX = Game.GAME_WIDTH / 2 - imgW / 2;
 		imgY = (int) (100 * Game.SCALE);
-
 	}
 
 	public void draw(Graphics g) {
@@ -51,11 +66,13 @@ public class GameOverOverlay {
 
 		menu.draw(g);
 		play.draw(g);
+		getLife.draw(g);
 	}
 
 	public void update() {
 		menu.update();
 		play.update();
+		getLife.update();
 	}
 
 	private boolean isIn(UrmButton b, MouseEvent e) {
@@ -65,27 +82,90 @@ public class GameOverOverlay {
 	public void mouseMoved(MouseEvent e) {
 		play.setMouseOver(false);
 		menu.setMouseOver(false);
+		getLife.setMouseOver(false);
 
 		if (isIn(menu, e))
 			menu.setMouseOver(true);
 		else if (isIn(play, e))
 			play.setMouseOver(true);
+		else if (isIn(getLife, e))
+			getLife.setMouseOver(true);
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		if (isIn(menu, e)) {
 			if (menu.isMousePressed()) {
+				playing.loadFirstLevel();
 				playing.resetAll();
 				playing.setGamestate(Gamestate.MENU);
 			}
-		} else if (isIn(play, e))
+		} else if (isIn(play, e)) {
 			if (play.isMousePressed()) {
-				playing.resetAll();
+				playing.loadFirstLevel();
 				playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+				playing.resetAll();
 			}
+		} else if (isIn(getLife, e)) {
+			if (getLife.isMousePressed()) {
+				TomatoGameServer tomatoGameServer = new TomatoGameServer();
+				TomatoGame tomatoGame = tomatoGameServer.getRandomGame();
+				
+				if (tomatoGame != null) {
+					displayTomatoUI(tomatoGame);
+				} else {
+					System.out.println("Fail to fetch the game from the server!");
+				}
+				playing.getGame().getAudioPlayer().playSong(AudioPlayer.MENU_1);
+			}
+		}
 
 		menu.resetBools();
 		play.resetBools();
+		getLife.resetBools();
+	}
+	
+	private void displayTomatoUI(TomatoGame tomatoGame) {
+		JFrame tomatoFrame = new JFrame("Tomato Game");
+		tomatoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JPanel tomatoPanel = new JPanel(new BorderLayout());
+		JLabel imageLabel = new JLabel(new ImageIcon(tomatoGame.getImage()));
+		tomatoPanel.add(imageLabel, BorderLayout.CENTER);
+		
+		JTextField userInputField = new JTextField();
+		tomatoPanel.add(userInputField, BorderLayout.SOUTH);
+		
+		JButton validateButton = new JButton("Get Life");
+        validateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userInput = userInputField.getText();
+                int userAnswer = Integer.parseInt(userInput);
+                
+                if (userAnswer == tomatoGame.getSolution()) {
+                    JOptionPane.showMessageDialog(tomatoFrame, "Correct Answer, You got an extra life!");
+                    tomatoFrame.dispatchEvent(new WindowEvent(tomatoFrame, WindowEvent.WINDOW_CLOSING));
+                    playing.resetAll();
+                    playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+                } else {
+                    JOptionPane.showMessageDialog(tomatoFrame, "Incorrect Answer. You Died!");
+                    tomatoFrame.dispatchEvent(new WindowEvent(tomatoFrame, WindowEvent.WINDOW_CLOSING));
+                    playing.loadFirstLevel();
+                    playing.resetAll();
+                    playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+                }
+            }
+        });
+
+        tomatoPanel.add(validateButton, BorderLayout.EAST);
+
+        tomatoFrame.getContentPane().add(tomatoPanel);
+
+        tomatoFrame.setSize(800, 550);
+        tomatoFrame.setResizable(false);
+		tomatoFrame.pack();
+		tomatoFrame.setLocationRelativeTo(null);
+        tomatoFrame.setVisible(true);
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -93,6 +173,8 @@ public class GameOverOverlay {
 			menu.setMousePressed(true);
 		else if (isIn(play, e))
 			play.setMousePressed(true);
+		else if (isIn(getLife, e))
+			getLife.setMousePressed(true);
 	}
 
 }

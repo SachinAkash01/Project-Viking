@@ -90,5 +90,9 @@ public class LevelCompletedOverlay {
 		else if (isIn(next, e))
 			next.setMousePressed(true);
 	}
+	
+	public void resetAll() {
+		
+	}
 
 }
