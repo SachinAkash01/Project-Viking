@@ -1,0 +1,79 @@
+package main;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class GameWindow {
+	private JFrame jframe;
+	private TomatoGame tomatoGame;
+
+	public GameWindow(GamePanel gamePanel) {
+
+		jframe = new JFrame();
+
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.add(gamePanel);
+		
+		jframe.setResizable(false);
+		jframe.pack();
+		jframe.setLocationRelativeTo(null);
+		jframe.setVisible(true);
+		jframe.addWindowFocusListener(new WindowFocusListener() {
+
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				gamePanel.getGame().windowFocusLost();
+			}
+
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		displayTomatoUI(tomatoGame);
+	}
+
+	private void displayTomatoUI(TomatoGame tomatoGame) {
+		JFrame tomatoFrame = new JFrame("Tomato Game");
+		tomatoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JPanel tomatoPanel = new JPanel(new BorderLayout());
+		JLabel imageLabel = new JLabel(new ImageIcon(tomatoGame.getImage()));
+		tomatoPanel.add(imageLabel, BorderLayout.CENTER);
+		
+		JTextField userInputField = new JTextField();
+		tomatoPanel.add(userInputField, BorderLayout.SOUTH);
+		
+		JButton validateButton = new JButton("Validate Answer");
+        validateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the user's input and validate against the solution
+                String userInput = userInputField.getText();
+                int userAnswer = Integer.parseInt(userInput);
+
+                if (userAnswer == tomatoGame.getSolution()) {
+                    // Handle correct answer
+                    JOptionPane.showMessageDialog(tomatoFrame, "Correct Answer, You got an extra life!");
+                } else {
+                    // Handle incorrect answer
+                    JOptionPane.showMessageDialog(tomatoFrame, "Incorrect Answer. You Died!");
+                }
+            }
+        });
+
+        tomatoPanel.add(validateButton, BorderLayout.EAST);
+
+        // Add the panel to the frame
+        tomatoFrame.getContentPane().add(tomatoPanel);
+
+        // Set the frame size and make it visible
+        tomatoFrame.setSize(600, 400);
+        tomatoFrame.setVisible(true);
+	}
+	
+	
+
+}

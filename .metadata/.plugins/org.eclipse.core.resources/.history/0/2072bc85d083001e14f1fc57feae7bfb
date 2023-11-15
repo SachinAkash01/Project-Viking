@@ -1,0 +1,87 @@
+package main;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
+public class TomatoGamePanel extends JFrame implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		int solution = Integer.parseInt(e.getActionCommand());
+		boolean correct = myGame.checkSolution(solution);
+		int score = myGame.getScore(); 
+		if (correct) {
+			System.out.println("Correct solution entered!");
+			currentGame = myGame.nextGame(); 			
+			ImageIcon ii = new ImageIcon(currentGame);
+			questArea.setIcon(ii);
+			infoArea.setText("Good!  Score: "+score);
+		} else { 
+			System.out.println("Not Correct"); 
+			infoArea.setText("Oops. Try again!  Score: "+score);
+		}
+	}
+
+	JLabel questArea = null;
+	TomatoGameEngine myGame = null;
+	BufferedImage currentGame = null;
+	JTextArea infoArea = null;
+/**
+ * Initializes the game. 
+ * @param player
+ */
+	private void initGame(String player) {
+		setSize(690, 500);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("What is the missing value?");
+		JPanel panel = new JPanel();
+
+		myGame = new TomatoGameEngine(player);
+		currentGame = myGame.nextGame();
+
+		infoArea = new JTextArea(1, 40);
+		
+		infoArea.setEditable(false);
+		infoArea.setText("What is the value of the tomato?   Score: 0");
+		
+		JScrollPane infoPane = new JScrollPane(infoArea);
+		panel.add(infoPane);
+
+		ImageIcon ii = new ImageIcon(currentGame);
+		questArea = new JLabel(ii);
+	    questArea.setSize(330, 600);
+	    
+		JScrollPane questPane = new JScrollPane(questArea);
+		panel.add(questPane);
+
+		for (int i = 0; i < 10; i++) {
+			JButton btn = new JButton(String.valueOf(i));
+			panel.add(btn);
+			btn.addActionListener(this);
+		}
+
+		getContentPane().add(panel);
+		panel.repaint();
+
+	}
+fault player is null. 
+ */
+	public TomatoGamePanel() {
+		super();
+		initGame(null);
+	}
+
+	public TomatoGamePanel(String player) {
+		super();
+		initGame(player);
+	}
+
+	public static void main(String[] args) {
+		TomatoGamePanel myGUI = new TomatoGamePanel();
+		myGUI.setVisible(true);
+
+	}
+}

@@ -1,0 +1,66 @@
+package ui;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import gamestates.Playing;
+import main.TomatoGame;
+
+public class TomatoGameUI {
+	
+	private Playing playing;
+	
+	public void displayTomatoUI(TomatoGame tomatoGame) {
+		JFrame tomatoFrame = new JFrame("Tomato Game");
+		tomatoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JPanel tomatoPanel = new JPanel(new BorderLayout());
+		JLabel imageLabel = new JLabel(new ImageIcon(tomatoGame.getImage()));
+		tomatoPanel.add(imageLabel, BorderLayout.CENTER);
+		
+		JTextField userInputField = new JTextField();
+		tomatoPanel.add(userInputField, BorderLayout.SOUTH);
+		
+		JButton validateButton = new JButton("Get Life");
+        validateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userInput = userInputField.getText();
+                int userAnswer = Integer.parseInt(userInput);
+                
+                if (userAnswer == tomatoGame.getSolution()) {
+                    JOptionPane.showMessageDialog(tomatoFrame, "Correct Answer, You got an extra life!");
+                    tomatoFrame.dispatchEvent(new WindowEvent(tomatoFrame, WindowEvent.WINDOW_CLOSING));
+                    playing.resetAll();
+                    playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+                } else {
+                    JOptionPane.showMessageDialog(tomatoFrame, "Incorrect Answer. You Died!");
+                    tomatoFrame.dispatchEvent(new WindowEvent(tomatoFrame, WindowEvent.WINDOW_CLOSING));
+                    playing.loadFirstLevel();
+                    playing.resetAll();
+                    playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+                }
+            }
+        });
+
+        tomatoPanel.add(validateButton, BorderLayout.EAST);
+
+        tomatoFrame.getContentPane().add(tomatoPanel);
+
+        tomatoFrame.setSize(800, 550);
+        tomatoFrame.setResizable(false);
+		tomatoFrame.pack();
+		tomatoFrame.setLocationRelativeTo(null);
+        tomatoFrame.setVisible(true);
+	}
+}
