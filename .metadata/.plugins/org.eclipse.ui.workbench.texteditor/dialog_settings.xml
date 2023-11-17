@@ -6,7 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="Spawn"/>
+			<item value="spawn"/>
+			<item value="lvlIndex"/>
+			<item value="getLevelManager"/>
 		</list>
 		<list key="replacehistory">
 		</list>

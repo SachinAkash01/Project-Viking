@@ -1,0 +1,108 @@
+package ui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import main.Game;
+import utilz.DatabaseConnection;
+
+public class RegisterUI extends JFrame {
+private static final long serialVersionUID = -6921462126880570161L;
+	
+//	private BufferedImage backgroundImg;
+//	private int menuX, menuY, menuWidth, menuHeight;
+
+	JButton blogin = new JButton("Login");
+	JButton bregister = new JButton("Register");
+	JPanel panel = new JPanel();
+	JTextField txtuser = new JTextField(15);
+	JPasswordField pass = new JPasswordField(15);
+	JLabel emailText = new JLabel("Email:");
+	JLabel passwordText = new JLabel("Password:");
+	JLabel registerLabel = new JLabel("Register Here..");
+	
+	public static void main(String[] args) {
+		new LoginUI();
+	}
+
+	public RegisterUI() {
+		setSize(1248, 672);
+		setLocation(500, 280);
+		panel.setLayout(null);
+
+		registerLabel.setBounds(590, 130, 200, 25);
+		emailText.setBounds(530, 170, 100, 25);
+		txtuser.setBounds(530, 200, 200, 25);
+		passwordText.setBounds(530, 240, 100, 25);
+		pass.setBounds(530, 270, 200, 25);
+		bregister.setBounds(580, 320, 100, 20);
+		blogin.setBounds(580, 350, 100, 20);
+
+		panel.add(blogin);
+		panel.add(txtuser);
+		panel.add(pass);
+		panel.add(emailText);
+		panel.add(passwordText);
+		panel.add(registerLabel);
+		panel.add(bregister);
+		
+		setLocationRelativeTo(null);
+		getContentPane().add(panel);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setVisible(true);
+		actionlogin();
+		actionRegister();
+//		loadBackground();
+	}
+	
+	public void enterUserData() {
+		String email = txtuser.getText();
+		String password = pass.getText();
+		
+		try {
+			Connection con = DatabaseConnection.getConnection();
+            String sql = "insert into users(email, password) values(?,?);";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, stockid);
+            pst.setString(2, stockname);
+
+            int rowCount = pst.executeUpdate();
+
+            if (rowCount > 0) {
+                added = true;
+            } else {
+                added = false;
+            }
+                
+            break;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void actionlogin() {
+		blogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				new LoginUI();
+				dispose();
+			}
+		});
+	}
+	
+	public void actionRegister() {
+		
+	}
+}
