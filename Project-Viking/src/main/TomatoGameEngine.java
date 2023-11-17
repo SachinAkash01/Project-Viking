@@ -29,7 +29,7 @@ public class TomatoGameEngine {
 		}
 	}
 	
-	public int getScore() {
-		return score;
-	}
+//	public int getScore() {
+//		return score;
+//	}
 }
