@@ -32,9 +32,4 @@ public class KeyboardInputs implements KeyListener {
 		case OPTIONS -> gamePanel.getGame().getGameOptions().keyPressed(e);
 		}
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// Not In Use
-	}
 }
