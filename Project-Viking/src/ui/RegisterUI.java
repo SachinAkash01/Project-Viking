@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import javax.swing.*;
 
 import main.Game;
 import utilz.DatabaseConnection;
+import utilz.LoadSave;
 
 public class RegisterUI extends JFrame {
 private static final long serialVersionUID = -6921462126880570161L;
@@ -25,6 +27,9 @@ private static final long serialVersionUID = -6921462126880570161L;
 	JLabel emailText = new JLabel("Email:");
 	JLabel passwordText = new JLabel("Password:");
 	JLabel registerLabel = new JLabel("Register Here..");
+	
+	private int menuX, menuY, menuWidth, menuHeight;
+	private BufferedImage backgroundImg;
 
 	public RegisterUI() {
 		setSize(1248, 672);
@@ -54,31 +59,76 @@ private static final long serialVersionUID = -6921462126880570161L;
 		setVisible(true);
 		actionlogin();
 		actionRegister();
-//		loadBackground();
 	}
 	
-	public void enterUserData() {
+	public void validateUserCredentials() {
 		String email = txtuser.getText();
 		String password = pass.getText();
 		
 		try {
-			Connection con = DatabaseConnection.getConnection();
-            String sql = "insert into users(email, password) values(?,?);";
-            PreparedStatement pst = con.prepareStatement(sql);
-
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement pst = con.prepareStatement("select * from users where email = ? and password = ?");
             pst.setString(1, email);
             pst.setString(2, password);
-
-            int rowCount = pst.executeUpdate();
-
-            if (rowCount > 0) {
-                JOptionPane.showMessageDialog(this, "Registration Successful!");
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+            	new Game();
             } else {
-                JOptionPane.showMessageDialog(this, "Error! Please try again!");
+                JOptionPane.showMessageDialog(this, "Incorrect Username or Password!");
+                txtuser.setText("");
+				pass.setText("");
+				txtuser.requestFocus();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+	}
+	
+	public boolean checkUserInput(String email, String password) {
+		return (email.equals("") && password.equals(""));
+	}
+	
+	public boolean enterUserData() {
+		String email = txtuser.getText();
+		String password = pass.getText();
+		
+		if (checkUserInput(email, password)) {
+			JOptionPane.showMessageDialog(this, "Please enter all the details!");
+			return false;
+		} else {
+			try {
+				Connection con = DatabaseConnection.getConnection();
+				PreparedStatement pst1 = con.prepareStatement("select * from users where email = ?");
+				pst1.setString(1, email);
+				ResultSet rs = pst1.executeQuery();
+				if (rs.next()) {
+					JOptionPane.showMessageDialog(this, "User already exists!");
+					txtuser.setText("");
+					pass.setText("");
+					txtuser.requestFocus();
+					return false;
+				} else {
+					String sql = "insert into users(email, password, highscore) values(?,?,0);";
+		            PreparedStatement pst = con.prepareStatement(sql);
+
+		            pst.setString(1, email);
+		            pst.setString(2, password);
+
+		            int rowCount = pst.executeUpdate();
+
+		            if (rowCount > 0) {
+		                JOptionPane.showMessageDialog(this, "Registration Successful!");
+		            } else {
+		                JOptionPane.showMessageDialog(this, "Error! Please try again!");
+		            }
+		            return true;
+				}
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+			return false;
+		}
 	}
 	
 	public void actionlogin() {
@@ -93,9 +143,10 @@ private static final long serialVersionUID = -6921462126880570161L;
 	public void actionRegister() {
 		bregister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				enterUserData();
-				new LoginUI();
-				dispose();
+				if (enterUserData()) {
+					new LoginUI();
+					dispose();
+				}
 			}
 		});
 	}

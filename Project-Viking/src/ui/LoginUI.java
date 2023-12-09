@@ -2,11 +2,9 @@ package ui;
 
 import main.Game;
 import utilz.DatabaseConnection;
-
 import javax.swing.*;
 
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,6 +25,8 @@ public class LoginUI extends JFrame {
 	JLabel passwordText = new JLabel("Password:");
 	JLabel loginLabel = new JLabel("Login Here..");
 	
+	public static String userSession;
+	
 	public static void main(String[] args) {
 		new LoginUI();
 	}
@@ -43,7 +43,7 @@ public class LoginUI extends JFrame {
 		pass.setBounds(530, 270, 200, 25);
 		blogin.setBounds(580, 320, 100, 20);
 		bregister.setBounds(580, 350, 100, 20);
-
+		
 		panel.add(blogin);
 		panel.add(txtuser);
 		panel.add(pass);
@@ -59,16 +59,7 @@ public class LoginUI extends JFrame {
 		setVisible(true);
 		actionlogin();
 		actionRegister();
-//		loadBackground();
 	}
-	
-//	private void loadBackground() {
-//		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.LOGIN_BACKGROUND);
-//		menuWidth = (int) (backgroundImg.getWidth() * Game.SCALE);
-//		menuHeight = (int) (backgroundImg.getHeight() * Game.SCALE);
-//		menuX = Game.GAME_WIDTH / 2 - menuWidth / 2;
-//		menuY = (int) (25 * Game.SCALE);
-//	}
 	
 	public void validateUserCredentials() {
 		String email = txtuser.getText();
@@ -82,7 +73,9 @@ public class LoginUI extends JFrame {
             ResultSet rs = pst.executeQuery();
             
             if (rs.next()) {
+            	setUserSession(email);
             	new Game();
+            	dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Incorrect Username or Password!");
                 txtuser.setText("");
@@ -92,6 +85,18 @@ public class LoginUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+	}
+	
+	public void setUserSession(String email) {
+		userSession = email;
+	}
+	
+	public static String getUserSession() {
+		return userSession;
+	}
+	
+	public void removeUserSession() {
+		userSession = null;
 	}
 
 	public void actionlogin() {

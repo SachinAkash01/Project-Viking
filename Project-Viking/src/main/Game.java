@@ -3,6 +3,7 @@ package main;
 import java.awt.Graphics;
 
 import audio.AudioPlayer;
+import entities.Player;
 import gamestates.GameOptions;
 import gamestates.Gamestate;
 import gamestates.Menu;
@@ -54,6 +55,7 @@ public class Game implements Runnable {
 		gameThread.start();
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public void update() {
 		switch (Gamestate.state) {
 		case MENU -> menu.update();

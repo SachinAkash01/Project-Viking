@@ -9,10 +9,16 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import audio.AudioPlayer;
 import gamestates.Playing;
 import main.Game;
+import main.GameWindow;
+import ui.LoginUI;
+import utilz.DatabaseConnection;
 import utilz.LoadSave;
 
 public class Player extends Entity {
@@ -62,6 +68,8 @@ public class Player extends Entity {
 	private int powerAttackTick;
 	private int powerGrowSpeed = 15;
 	private int powerGrowTick;
+	
+	private int highscore;
 
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
@@ -96,6 +104,8 @@ public class Player extends Entity {
 				state = DEAD;
 				aniTick = 0;
 				aniIndex = 0;
+				updateHighscore();
+				Enemy.setScore(0);
 				playing.setPlayerDying(true);
 				playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
 
@@ -108,9 +118,10 @@ public class Player extends Entity {
 				playing.setGameOver(true);
 				playing.getGame().getAudioPlayer().stopSong();
 				playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
+				updateHighscore();
+				Enemy.setScore(0);
 			} else {
 				updateAnimationTick();
-
 				// Fall if in air
 				if (inAir)
 					if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
@@ -118,7 +129,6 @@ public class Player extends Entity {
 						airSpeed += GRAVITY;
 					} else
 						inAir = false;
-
 			}
 
 			return;
@@ -152,6 +162,30 @@ public class Player extends Entity {
 
 		updateAnimationTick();
 		setAnimation();
+	}
+	
+	private void updateHighscore() {
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement pst = con.prepareStatement("select highscore from users where email = ?");
+			pst.setString(1, LoginUI.userSession);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				highscore = rs.getInt("highscore");
+			}
+			
+			if (Enemy.getScore() > highscore) {
+				String sql = "update users set highscore = ? where email = ?;";
+	            PreparedStatement pst1 = con.prepareStatement(sql);
+	            
+	            pst1.setInt(1, Enemy.getScore());
+	            pst1.setString(2, LoginUI.userSession);
+	            pst1.executeUpdate();
+	            Enemy.setScore(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void checkInsideWater() {

@@ -9,6 +9,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import main.GameWindow;
+
 public class LoadSave {
 
 	public static final String PLAYER_ATLAS = "player_sprites.png";

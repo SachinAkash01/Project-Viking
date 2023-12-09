@@ -21,6 +21,7 @@ public abstract class Enemy extends Entity {
 	protected boolean active = true;
 	protected boolean attackChecked;
 	protected int attackBoxOffsetX;
+	protected static int score = 0;
 
 	public Enemy(float x, float y, int width, int height, int enemyType) {
 		super(x, y, width, height);
@@ -164,7 +165,8 @@ public abstract class Enemy extends Entity {
 
 					switch (state) {
 					case ATTACK, HIT -> state = IDLE;
-					case DEAD -> active = false;
+					case DEAD -> {active = false;
+								  score += 5;}
 					}
 				} else if (enemyType == PINKSTAR) {
 					if (state == ATTACK)
@@ -180,6 +182,14 @@ public abstract class Enemy extends Entity {
 				}
 			}
 		}
+	}
+	
+	public static int getScore() {
+		return score;
+	}
+	
+	public static void setScore(int rscore) {
+		score = rscore;
 	}
 
 	protected void changeWalkDir() {

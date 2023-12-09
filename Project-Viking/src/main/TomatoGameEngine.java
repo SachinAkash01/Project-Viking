@@ -9,8 +9,6 @@ public class TomatoGameEngine {
 		thePlayer = player;
 	}
 
-	int counter = 0;
-	int score = 0;
 	TomatoGameServer theGames = new TomatoGameServer();
 	TomatoGame current = null;
 
@@ -22,14 +20,9 @@ public class TomatoGameEngine {
 
 	public boolean checkSolution( int i) {
 		if (i == current.getSolution()) {
-			score++;
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-//	public int getScore() {
-//		return score;
-//	}
 }

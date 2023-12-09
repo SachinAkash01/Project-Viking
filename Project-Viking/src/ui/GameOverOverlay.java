@@ -4,6 +4,7 @@ import static utilz.Constants.UI.URMButtons.URM_SIZE;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,7 @@ import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import main.Game;
+import main.GameWindow;
 import main.TomatoGame;
 import main.TomatoGameServer;
 import utilz.LoadSave;
@@ -125,19 +128,28 @@ public class GameOverOverlay {
 	}
 	
 	private void displayTomatoUI(TomatoGame tomatoGame) {
-		JFrame tomatoFrame = new JFrame("Tomato Game");
-		tomatoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		JPanel tomatoPanel = new JPanel(new BorderLayout());
-		JLabel imageLabel = new JLabel(new ImageIcon(tomatoGame.getImage()));
-		tomatoPanel.add(imageLabel, BorderLayout.CENTER);
-		
-		JTextField userInputField = new JTextField();
-		tomatoPanel.add(userInputField, BorderLayout.SOUTH);
-		
-		JButton validateButton = new JButton("Get Life");
-        validateButton.addActionListener(new ActionListener() {
-            @Override
+	    JFrame tomatoFrame = new JFrame("Tomato Game");
+	    tomatoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	    JPanel tomatoPanel = new JPanel(new BorderLayout());
+
+	    Box centerBox = Box.createVerticalBox();
+	    centerBox.add(Box.createVerticalGlue());
+	    centerBox.add(new JLabel(new ImageIcon(tomatoGame.getImage())));
+	    tomatoPanel.add(centerBox, BorderLayout.CENTER);
+
+	    JPanel bottomPanel = new JPanel(new BorderLayout());
+
+	    JTextField userInputField = new JTextField();
+	    userInputField.setPreferredSize(new Dimension(200, 30));
+
+	    bottomPanel.add(userInputField, BorderLayout.CENTER);
+
+	    JButton validateButton = new JButton("Get Life");
+	    validateButton.setPreferredSize(new Dimension(100, 30));
+
+	    validateButton.addActionListener(new ActionListener() {
+	    	@Override
             public void actionPerformed(ActionEvent e) {
                 String userInput = userInputField.getText();
                 int userAnswer = Integer.parseInt(userInput);
@@ -154,19 +166,23 @@ public class GameOverOverlay {
                     playing.resetAll();
                     playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
                 }
-            }
-        });
+	    	}
+	    });
 
-        tomatoPanel.add(validateButton, BorderLayout.EAST);
+	    bottomPanel.add(validateButton, BorderLayout.EAST);
 
-        tomatoFrame.getContentPane().add(tomatoPanel);
+	    tomatoPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        tomatoFrame.setSize(800, 550);
-        tomatoFrame.setResizable(false);
-		tomatoFrame.pack();
-		tomatoFrame.setLocationRelativeTo(null);
-        tomatoFrame.setVisible(true);
+	    tomatoFrame.getContentPane().add(tomatoPanel);
+
+	    tomatoFrame.setSize(1000, 700);
+	    tomatoFrame.setResizable(false);
+	    tomatoFrame.pack();
+	    tomatoFrame.setLocationRelativeTo(null);
+	    tomatoFrame.setVisible(true);
 	}
+
+
 
 	public void mousePressed(MouseEvent e) {
 		if (isIn(menu, e))
