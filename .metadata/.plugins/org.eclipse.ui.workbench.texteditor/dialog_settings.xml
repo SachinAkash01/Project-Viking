@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="GameWindow"/>
 		<list key="findhistory">
+			<item value="gamewindow"/>
 			<item value="Spawn"/>
 			<item value="spawn"/>
 			<item value="lvlIndex"/>

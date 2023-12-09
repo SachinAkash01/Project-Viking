@@ -8,11 +8,9 @@
     <fullyQualifiedTypeName name="inputs.KeyboardInputs"/>
     <fullyQualifiedTypeName name="inputs.MouseInputs"/>
     <fullyQualifiedTypeName name="main.GamePanel"/>
-    <fullyQualifiedTypeName name="java.awt.Dimension"/>
     <fullyQualifiedTypeName name="java.io.InputStream"/>
     <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
-    <fullyQualifiedTypeName name="entities.Player"/>
     <fullyQualifiedTypeName name="java.awt.event.WindowFocusListener"/>
     <fullyQualifiedTypeName name="levels.LevelManager"/>
     <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
@@ -31,7 +29,6 @@
     <fullyQualifiedTypeName name="java.util.Random"/>
     <fullyQualifiedTypeName name="gamestates.Playing"/>
     <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
-    <fullyQualifiedTypeName name="utilz.LoadSave"/>
     <fullyQualifiedTypeName name="java.awt.Graphics"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="entities.Crabby"/>
@@ -43,4 +40,11 @@
     <fullyQualifiedTypeName name="utilz.Constants.Directions"/>
     <fullyQualifiedTypeName name="java.awt.geom.Rectangle2D"/>
     <fullyQualifiedTypeName name="java.awt.geom.Rectangle2D.Float"/>
+    <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+    <fullyQualifiedTypeName name="ui.LoginUI"/>
+    <fullyQualifiedTypeName name="java.awt.Dimension"/>
+    <fullyQualifiedTypeName name="javax.swing.Box"/>
+    <fullyQualifiedTypeName name="utilz.LoadSave"/>
+    <fullyQualifiedTypeName name="main.GameWindow"/>
+    <fullyQualifiedTypeName name="entities.Player"/>
 </qualifiedTypeNameHistroy>
