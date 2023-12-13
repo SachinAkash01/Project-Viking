@@ -15,9 +15,6 @@ import utilz.LoadSave;
 
 public class RegisterUI extends JFrame {
 private static final long serialVersionUID = -6921462126880570161L;
-	
-//	private BufferedImage backgroundImg;
-//	private int menuX, menuY, menuWidth, menuHeight;
 
 	JButton blogin = new JButton("Login");
 	JButton bregister = new JButton("Register");
