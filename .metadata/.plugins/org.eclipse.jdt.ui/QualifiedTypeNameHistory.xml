@@ -14,7 +14,6 @@
     <fullyQualifiedTypeName name="java.awt.event.WindowFocusListener"/>
     <fullyQualifiedTypeName name="levels.LevelManager"/>
     <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
-    <fullyQualifiedTypeName name="gamestates.Menu"/>
     <fullyQualifiedTypeName name="utilz.Constants.UI"/>
     <fullyQualifiedTypeName name="ui.MenuButton"/>
     <fullyQualifiedTypeName name="javax.imageio.plugins.tiff.ExifGPSTagSet"/>
@@ -47,4 +46,5 @@
     <fullyQualifiedTypeName name="utilz.LoadSave"/>
     <fullyQualifiedTypeName name="main.GameWindow"/>
     <fullyQualifiedTypeName name="entities.Player"/>
+    <fullyQualifiedTypeName name="gamestates.Menu"/>
 </qualifiedTypeNameHistroy>

@@ -5,13 +5,13 @@ import java.awt.event.MouseEvent;
 import audio.AudioPlayer;
 import main.Game;
 import main.GameWindow;
-import ui.LoginUI;
+//import ui.LoginUI;
 import ui.MenuButton;
 
 public class State {
 
 	protected Game game;
-	protected LoginUI login;
+//	protected LoginUI login;
 
 	public State(Game game) {
 		this.game = game;
@@ -30,7 +30,7 @@ public class State {
 		switch (state) {
 		case MENU -> game.getAudioPlayer().playSong(AudioPlayer.MENU_1);
 		case PLAYING -> game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getLevelIndex());
-		case QUIT -> login.removeUserSession();
+//		case QUIT -> login.removeUserSession();
 		}
 
 		Gamestate.state = state;

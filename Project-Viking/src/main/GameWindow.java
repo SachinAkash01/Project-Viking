@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 
 import javax.swing.*;
 
-import ui.LoginUI;
-import utilz.DatabaseConnection;
+//import ui.LoginUI;
+//import utilz.DatabaseConnection;
 
 public class GameWindow {
 	private JFrame jframe;
@@ -18,11 +18,11 @@ public class GameWindow {
 
 	public GameWindow(GamePanel gamePanel) {
 		jframe = new JFrame();
-		setHighscore();
+//		setHighscore();
 
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setLayout(new BorderLayout());
-		jframe.add(highScoreLabel, BorderLayout.NORTH);
+//		jframe.add(highScoreLabel, BorderLayout.NORTH);
 		jframe.add(gamePanel);
 		
 		
@@ -44,19 +44,19 @@ public class GameWindow {
 		});
 	}
 	
-	public static void setHighscore() {
-		try {
-			Connection con = DatabaseConnection.getConnection();
-			PreparedStatement pst = con.prepareStatement("select highscore from users where email = ?");
-			pst.setString(1, LoginUI.getUserSession());
-			ResultSet rs = pst.executeQuery();
-			if (rs.next()) {
-				highscore = rs.getInt("highscore");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		highScoreLabel = new JLabel("High Score: " + highscore);
-	}
+//	public static void setHighscore() {
+//		try {
+//			Connection con = DatabaseConnection.getConnection();
+//			PreparedStatement pst = con.prepareStatement("select highscore from users where email = ?");
+////			pst.setString(1, LoginUI.getUserSession());
+//			ResultSet rs = pst.executeQuery();
+//			if (rs.next()) {
+//				highscore = rs.getInt("highscore");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		highScoreLabel = new JLabel("High Score: " + highscore);
+//	}
 }

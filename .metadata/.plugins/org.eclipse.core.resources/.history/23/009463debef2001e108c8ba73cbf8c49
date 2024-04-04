@@ -1,0 +1,62 @@
+package main;
+
+import java.awt.BorderLayout;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.*;
+
+import ui.LoginUI;
+import utilz.DatabaseConnection;
+
+public class GameWindow {
+	private JFrame jframe;
+	private static JLabel highScoreLabel;
+	private static int highscore;
+
+	public GameWindow(GamePanel gamePanel) {
+		jframe = new JFrame();
+		setHighscore();
+
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setLayout(new BorderLayout());
+		jframe.add(highScoreLabel, BorderLayout.NORTH);
+		jframe.add(gamePanel);
+		
+		
+		jframe.setResizable(false);
+		jframe.pack();
+		jframe.setLocationRelativeTo(null);
+		jframe.setVisible(true);
+		jframe.addWindowFocusListener(new WindowFocusListener() {
+
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				gamePanel.getGame().windowFocusLost();
+			}
+
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				
+			}
+		});
+	}
+	
+	public static void setHighscore() {
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement pst = con.prepareStatement("select highscore from users where email = ?");
+//			pst.setString(1, LoginUI.getUserSession());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				highscore = rs.getInt("highscore");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		highScoreLabel = new JLabel("High Score: " + highscore);
+	}
+}
